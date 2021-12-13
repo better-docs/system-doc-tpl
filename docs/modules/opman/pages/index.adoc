@@ -1,0 +1,7 @@
+= Operations Manual
+:reftext: operations manual
+:navtitle: Operations Manual
+:description: The operations manual.
+:author: jens@neuhalfen.name
+
+include::ROOT:partial$scope.adoc[]
