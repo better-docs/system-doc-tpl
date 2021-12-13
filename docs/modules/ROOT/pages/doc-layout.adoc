@@ -6,11 +6,25 @@
   vs. component-level documentation.
 :author: jens@neuhalfen.name
 
-The system documentation is split into sections that _describe the system_  like xref:arc42:01_introduction_and_goals.adoc[architecture], operating manual and business processes and sections that _describe things that change_ like planning, ideas, ... (see <<fig-system-documentation>>).
+A well structured documentation is of immense help to the reader because it is
+not only _predictable_, it is most of all _trustworthy_. The value of good
+documentation becomes especially evident when it is just not there. Just like
+all things in live - you learn to value it as soon as you lose it.
+
+Trustworthiness is achieved by separating _what has been and what should be_ from _what
+actually is_, or in the nomenclature used here, by separating _day-to-day
+documentation_ from _system-as-is documentation_.
+
+
+== Working with system-as-is and day-to-day documentation
+
+The system documentation is split into sections that _describe the system as it is right now_ like
+xref:arc42:01_introduction_and_goals.adoc[architecture],
+xref:opman:index.adoc[operating manual] or business processes and sections that
+_describe things that change_ like planning, ideas, analyses, ... (see
+<<fig-system-documentation>>).
 
 Distinguishing between the a more formal _description of the system as-is_ (=> _system documentation_) and an more informal _description of things that were and might be_ (=> _day-to-day documentation_) greatly improves the usefulness of the documentation and makes it easy to add or change the documentation. By enforcing that the _system documentation_ always reflects the system to a very high degree it stays _trustworthy_. To choose where to put it ask a simple question: "does it describe the system as of now" (<<fig-where-to-put-it>> and <<component-or-system>>).
-
-
 
 [#fig-system-documentation]
 .System- and day-to-day documentation
