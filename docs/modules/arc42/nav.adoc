@@ -1,0 +1,26 @@
+.arc42 Architecture Documentation
+* xref:01_introduction_and_goals.adoc[]
+* xref:02_architecture_constraints.adoc[]
+* xref:03_system_scope_and_context.adoc[]
+* xref:04_solution_strategy.adoc[]
+* xref:05_building_block_view.adoc[]
+** xref:05_bb-level1.adoc[]
+** xref:05_bb-level2.adoc[]
+** xref:05_bb-level3.adoc[]
+* xref:06_runtime_view.adoc[]
+* xref:07_deployment_view.adoc[]
+* xref:concepts:intro.adoc[]
++
+--
+include::concepts:partial$nav.adoc[]
+--
++
+* xref:adr:intro.adoc[]
++
+--
+include::adr:partial$nav.adoc[]
+--
++
+* xref:10_quality_scenarios.adoc[]
+* xref:11_technical_risks.adoc[]
+* xref:12_glossary.adoc[]

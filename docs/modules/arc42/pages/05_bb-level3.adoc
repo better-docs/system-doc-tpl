@@ -1,0 +1,33 @@
+= Level 3
+:reftext: Global Level 3 Building Blocks
+:navtitle: Level 3 Building Blocks
+
+[role="arc42help"]
+****
+Here you can specify the inner structure of (some) building blocks from level 2 as white boxes.
+
+When you need more detailed levels of your architecture please copy this
+part of arc42 for additional levels.
+****
+
+
+== White Box <_building block x.1_>
+
+[role="arc42help"]
+****
+Specifies the internal structure of _building block x.1_.
+****
+
+
+_<white box template>_
+
+
+== White Box <_building block x.2_>
+
+_<white box template>_
+
+
+
+== White Box <_building block y.1_>
+
+_<white box template>_

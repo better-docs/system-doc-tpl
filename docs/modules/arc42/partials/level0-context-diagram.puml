@@ -1,0 +1,41 @@
+@startuml "L0 - System Context Diagram"
+!include <C4/C4_Context>
+
+' several sprites for users. https://github.com/Roemer/plantuml-office
+!include <office/Users/user.puml>
+!include <office/Users/mobile_user.puml>
+!include <office/Users/administrator.puml>
+!include <office/Users/call_center_agent.puml>
+!include <office/Services/email_service.puml>
+!include <office/Communications/smtp_connector.puml>
+
+LAYOUT_TOP_DOWN()
+'LAYOUT_AS_SKETCH()
+LAYOUT_WITH_LEGEND()
+
+Person(customer, "Customer", "A customer of ACME.", $sprite="user")
+
+Enterprise_Boundary(c0, "ACME limited") {
+    Person(support_agent, "Support Agent", "Handles all customer interactions.", $sprite="call_center_agent")
+    Person(admin, "Administrator", "System administrator that manages the system.", $sprite="administrator")
+
+    System(acme, "ACME IT System", "The <i>ACME IT System</i> won prizes for its creative naming.")
+
+    System_Ext(mta, "mail.acme.com", "ACME SMTP server", $sprite="email_service")
+}
+
+System_Ext(payment, "Payment System", "Handles all payment processes.")
+
+
+Rel_R(customer, support_agent, "States support request to", "Telephone")
+
+Rel_R(customer, acme, "Orders thingies using")
+
+Rel(support_agent, acme, "Looks up order information using")
+Rel_D(acme, payment, "Initiate payment process in", "CSV export")
+Rel_R(acme, mta, "Send notification emails", "SMTP(S)", $sprite="smtp_connector,scale=0.5")
+
+Rel_D(admin, acme, "Configure the system", "HTTPS")
+
+Lay_R(support_agent, admin)
+@enduml

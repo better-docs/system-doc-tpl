@@ -1,0 +1,270 @@
+= Documentation Layout
+:reftext: Documentation Layout
+:navtitle: Documentation Layout
+:description: How is the documentation structured with regards to \
+  system documentation, day-to-day documentation and system-level \
+  vs. component-level documentation.
+:author: jens@neuhalfen.name
+
+The system documentation is split into sections that _describe the system_  like xref:arc42:01_introduction_and_goals.adoc[architecture], operating manual and business processes and sections that _describe things that change_ like planning, ideas, ... (see <<fig-system-documentation>>).
+
+Distinguishing between the a more formal _description of the system as-is_ (=> _system documentation_) and an more informal _description of things that were and might be_ (=> _day-to-day documentation_) greatly improves the usefulness of the documentation and makes it easy to add or change the documentation. By enforcing that the _system documentation_ always reflects the system to a very high degree it stays _trustworthy_. To choose where to put it ask a simple question: "does it describe the system as of now" (<<fig-where-to-put-it>> and <<component-or-system>>).
+
+
+
+[#fig-system-documentation]
+.System- and day-to-day documentation
+[plantuml, system-documentation, svg]
+----
+skinparam monochrome true
+skinparam defaulttextalignment center
+skinparam legendbackgroundcolor none
+hide circle
+package "<b>System</b> Documentation" as doc <<Rectangle>> {
+}
+
+class "Architecture" as arc42 << system documentation >> {
+  01 introduction
+  02 constraints
+  03 scope and context
+  04 solution strategy
+  05 building blocks
+  06 runtime view
+  07 deployment view
+  08 cross-cutting concepts
+  09 architectural design decisions
+  10 quality scenarios
+  11 technical risks
+  12 glossary
+}
+
+class "Operations Manual" as om << system documentation >> {
+...
+}
+
+class "Business Processes" as bp << system  documentation >> {
+...
+}
+
+class "Day-to-day" as dtd << work in progress >> {
+  planning
+  ideas
+  sketches
+  protocols
+  analyses
+  ...
+}
+
+doc *-left- arc42
+doc *-right- dtd
+doc *-down- om
+doc *-up- bp
+
+note right of dtd: Where the other sections of the documentation\ndescribe the system <i>as it is</i>, this\nsection contains <i>things that might be</i> like drafts\nfor new features and ideas or\n<i>day to day</i> documentation like\nprotocols.
+
+legend right
+|Style| Relevance |
+|<b>bold| in focus |
+|<strike>striked| irrelevant |
+|default| considered |
+endlegend
+----
+
+
+[#fig-where-to-put-it]
+.How to choose where to put it?
+[plantuml,  where-to-put-it, svg]
+----
+@startuml
+!pragma useVerticalIf on
+skinparam monochrome true
+skinparam defaulttextalignment center
+skinparam legendbackgroundcolor none
+hide circle
+
+start
+note right
+  I have this piece of documentation and
+  don't know where to put it.
+end note
+if (This is a customer specific information?) then (yes)
+  #DarkGray:Somewhere else;
+note right
+    Customer or contract specific documentation
+    should either become a (generic) system requirement
+    //or// be documented in a dedicated location for
+    customer requirements, e.g. a dedicated Antora repository.
+end note
+elseif (Is still in a draft state?) then (yes)
+  #SkyBlue:Day-to-day documentation;
+note right
+    Only put things in the //system-as-is//
+    //documentation// when they are mature
+    and reliable enough to be of actual help
+    to the reader.
+end note
+elseif (Describes an event/protocol/..?) then (yes)
+  #SkyBlue:Day-to-day documentation;
+note right
+    Although events documentation, meeting
+    protocols, analyses results, .. can
+    describe observed and expected system
+    behavior, they should be kept separate.
+end note
+elseif (An idea for the system?) then  (yes)
+  #SkyBlue:Day-to-day documentation;
+note right
+    Ideas and plans change and evolve, many
+    will never make it to the system or are
+    implemented differently.
+end note
+elseif (The planned architecture for the //next// release?) then  (yes)
+  #SkyBlue:Day-to-day documentation;
+note right
+    Even if there is a high confidence that
+    //this is the way it is going to be//,
+    as long as code and documentation di-
+    verge it should be put in //day-to-day//.
+    Teams can agree on **exceptions** for
+    **development branches**.
+end note
+elseif (The planned architecture for release //has been implemented//?) then  (yes)
+  #SteelBlue:System-as-is documentation;
+note right
+    Moving mature documents from //day-to-day//
+    into the //system-as-is// documentation
+    is the recommended way.
+end note
+
+elseif (Describes the current system?) then  (yes)
+  #SteelBlue:System-as-is documentation;
+note right
+    Changing documentation in //system-as-is//
+    should adher to the same standards as
+    code , e.g. peer reviewed in a merge
+    request.
+end note
+else (not exactly)
+  #SkyBlue:Day-to-day documentation;
+note right
+    //When in doubt, leave it out.//
+end note
+endif
+stop
+@enduml
+----
+
+
+== Working with (micro) services
+
+Most systems nowadays are split into several services with their own
+documentation. The layout of the documentation of each component mirrors the
+layout of the system documentation. The major difference is that the system
+documentation looks at the system as a whole, whereas the component
+documentation focuses on the concrete component/service. The documentation is
+build from multiple repositories by link:#antora[Antora]. The following table
+helps to decide if a fact belongs into the _system_ documentation or a
+_component_ documentation.
+
+.Decision table to determine if it belongs in the _system_ or a _component_ documentation.
+[#component-or-system]
+[%header, cols="2s,4,4"]
+|===
+| Aspect
+| System
+| Component
+
+| `name`  in `antora.yml`
+| `system` (fix)
+| name of the component, e.g. `billing`, `admin-ui`
+
+| arc42 `01. Introduction and Goals`
+| Description of the whole (IT) system.
+| Concisely describe the component/service, defer to the `system` documentation
+  for an overview and details.
+
+| arc42 `02. Architecture Constraints`
+| Constraints affecting the whole system.
+| Constraints affecting specifically this component/service.
+
+| arc42 `03. System Scope and Context`
+| Description of the whole system
+| Defer to the  xref:system:arc42:03_system_scope_and_context.adoc[] in the
+  `system` component by linking to it
+  (`\xref:system:arc42:03_system_scope_and_context.adoc[]`).
+
+| arc42 `04. Solution Strategy`
+| Strategy for the whole system.
+| Strategy for this component.
+
+| arc42 `05. Building Block View`
+| Description of the levels 1 and 2.
+  Level 2 links to the level 2 description of the component repositories.
+| Level 1 defers to the `system` documentation (xref:system:arc42:05_bb-level1.adoc[])
+  and describes level 2 for the component.
+
+| arc42 `06. Runtime View`
+| Include the most important use cases/processes in the vocabulary of
+  xref:arc42:05_bb-level1.adoc[the level 1 building blocks].
+| Include the most important use cases/processes _of the component_ in
+  the vocabulary of the xref:system:arc42:05_bb-level1.adoc[level 1] and
+  xref:arc42:05_bb-level2.adoc[level 2] building blocks.
+
+| arc42 `07. Deployment View`
+| Deployment view with links to the components.
+| Defer to the `system` documentation.
+
+
+| arc42 `08. Cross-cutting Concepts`
+| System level concepts with links to the _system operations manual_.
+| Component local concepts with links to the _component operations manual_.
+
+| arc42 `09. Design Decisions (ADR)`
+| System level ADR.
+| Component local ADR that are strictly local to the component.
+
+| arc42 `10. Quality Requirements`
+| System level quality requirements.
+| Component local quality requirements.
+
+| arc42 `11. Risks and Technical Debts`
+| System level risks and technical depts.
+| Component local risks and technical depts.
+
+| arc42 `12. Glossary`
+| System level glossary.
+| Component local glossary.
+|===
+
+
+.How to mark if this document is for the system or a component?
+****
+All documents should include a
+https://docs.antora.org/antora/2.3/page/include-a-partial/[partial] that
+describes the scope and context of the document like the following:
+
+[asciidoc]
+----
+\include::ROOT:partial$scope.adoc[]
+----
+
+with a content of `ROOT/partials/scope.adoc` similar to the following example:
+[asciidoc]
+----
+include::ROOT:partial$scope.adoc[]
+----
+
+Example:
+
+include::ROOT:partial$scope.adoc[]
+****
+
+== Working with versions
+TODO
+
+[#antora]
+== Tooling: _Antora_
+The HTML documentation is created from several link:https://asciidoctor.org/[asciidoc] pages split over several git repositories. link:https://antora.org/[Antora] pulls all repositories and files together and generates this site.
+
+== Working with releases
+https://docs.antora.org/antora/2.3/content-source-versioning-methods/[Antora component versions] are used to tie releases together.

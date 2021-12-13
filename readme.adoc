@@ -1,0 +1,28 @@
+= Template for a system documented with Antora & ARC42
+
+This is a documentation template for a *system* that is documented with link:https://antora.org/[Antora].
+
+== Layout
+
+.Directory layout
+....
+├── antora-site  <1>
+└── antora-system-tpl <2>
+└── antora-component-tpl <3>
+└── antora-component-.. <4>
+....
+<1> The site definition ties together the system <2> and all components <3>
+<2> Documentation for the system. Everything that describes the system goes here. It should contain arc42 building blocks of level 0+1, not deeper. Level 2+ are documented in <3>. The component  name is `system`.
+<3> Documentation for components (e.g. services). Components reference to the system documentation in <2> for everything concerning the system as a whole. The antora component name is e.g. `web-ui`.
+<4> Many more components
+
+== Building
+
+The template uses Antora 3.0 with the `asciidoctor-kroki` extension. The `Makefile` relies on an image called `local/antora-custom:testing` created by the following `Dockerfile`:
+
+[docker]
+----
+FROM docker.io/antora/antora:testing
+
+RUN yarn global add asciidoctor-kroki
+----

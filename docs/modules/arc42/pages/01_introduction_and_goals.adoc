@@ -1,0 +1,170 @@
+[[section-introduction-and-goals]]
+= Introduction and Goals
+:reftext: Global Introduction and Goals
+:navtitle: 01. Introduction and Goals
+
+include::ROOT:partial$scope.adoc[]
+
+[role="arc42help"]
+****
+Describes the relevant requirements and the driving forces that software architects and development team must consider. These include
+
+* underlying business goals, essential features and functional requirements for the system
+* quality goals for the architecture
+* relevant stakeholders and their expectations
+****
+
+== Requirements Overview
+
+[role="arc42help"]
+****
+.Contents
+Short description of the functional requirements, driving forces, extract (or abstract)
+of requirements. Link to (hopefully existing) requirements documents
+(with version number and information where to find it).
+
+.Motivation
+From the point of view of the end users a system is created or modified to
+improve support of a business activity and/or improve the quality.
+
+.Form
+Short textual description, probably in tabular use-case format.
+If requirements documents exist this overview should refer to these documents.
+
+Keep these excerpts as short as possible. Balance readability of this document with potential redundancy w.r.t to requirements documents.
+****
+
+== Quality Goals
+
+[.helptext]
+****
+.Contents
+The top three (max five) quality goals for the architecture whose fulfillment is of highest importance to the major stakeholders. We really mean quality goals for the architecture. Don't confuse them with project goals. They are not necessarily identical.
+
+.Motivation
+You should know the quality goals of your most important stakeholders, since they will influence fundamental architectural decisions. Make sure to be very concrete about these qualities, avoid buzzwords.
+If you as an architect do not know how the quality of your work will be judged …
+
+.Form
+A table with quality goals and concrete scenarios, ordered by priorities
+****
+
+The following diagram shows the weighted **SQuaRE** model of ISO25010 (_Systems and software Quality Requirements and Evaluation - System and software quality models_).
+
+[plantuml, quality-model, png]
+----
+skinparam monochrome true
+skinparam defaulttextalignment center
+skinparam legendbackgroundcolor none
+hide circle
+package "<b>ISO25010\nQuality Model" as iso <<Rectangle>> {
+
+}
+
+class Usability {
+  approriateness
+  <strike>recognisability
+  <b>learnability
+  <b>operatibility
+  <strike>user error protection
+  <b>UI aesthetics
+  <b>accessibility
+}
+
+class Reliability {
+  <strike>maturity
+  <strike>availability
+  fault tolerance
+  <strike>recoverability
+}
+
+class Security {
+  <strike>confidentiality
+  integrity
+  <strike>non-repudiation
+  <strike>accountability
+  <strike>authenticity
+}
+
+class Maintainability {
+  <strike>modularity
+  <strike>reusability
+  <strike>analysability
+  <strike>modifiability
+  <strike>testability
+}
+
+class Portability {
+  <strike>adaptability
+  installability
+  <strike>replaceability
+}
+
+class "Functional Suitability" as fs {
+  completeness
+  <strike>correctness
+  <strike>appropriateness
+}
+
+class "Performance Efficiency" as pe {
+  <strike>time-behaviour
+  <strike>resource utilisation
+  <strike>capacity
+}
+
+class Compatibility {
+  <strike>co-existence
+  interoperability
+}
+
+iso -down- Compatibility
+iso -down- pe
+iso -down- fs
+iso -up- Portability
+iso -up- Security
+iso -up- Maintainability
+iso -left- Reliability
+iso -right- Usability
+
+legend right
+|Style| Relevance |
+|<b>bold| in focus |
+|<strike>striked| irrelevant |
+|default| considered |
+endlegend
+----
+
+The main focus of the system lies on **Usability** by the _Owner_ and _Viewer_.
+Security aspects are relevant to the extent that neither the system integrity nor the Owners privacy may be compromised.
+The third category of important quality attributes concerns the compatibility of the entire system that should allow easy installation and a certain degree of fault tolerance towards errors in individual system components.
+
+As the system is a consumer good with relatively short lifespan, maintainability is not of high importance.
+
+== Stakeholders
+
+[.helptext]
+****
+.Contents
+Explicit overview of stakeholders of the system, i.e. all person, roles or organizations that
+
+* should know the architecture
+* have to be convinced of the architecture
+* have to work with the architecture or with code
+* need the documentation of the architecture for their work
+* have to come up with decisions about the system or its development
+
+.Motivation
+You should know all parties involved in development of the system or affected by the system.
+Otherwise, you may get nasty surprises later in the development process.
+These stakeholders determine the extent and the level of detail of your work and its results.
+
+.Form
+Table with role names, person names, and their expectations with respect to the architecture and its documentation.
+****
+
+[options="header",cols="1,2,2"]
+|===
+|Role/Name|Contact|Expectations
+| _<Role-1>_ | _<Contact-1>_ | _<Expectation-1>_
+| _<Role-2>_ | _<Contact-2>_ | _<Expectation-2>_
+|===

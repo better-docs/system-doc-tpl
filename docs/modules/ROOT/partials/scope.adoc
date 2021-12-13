@@ -1,0 +1,1 @@
+NOTE: The scope of this page is the **{page-component-title}** (`{page-component-name}`) in version {page-component-display-version}.

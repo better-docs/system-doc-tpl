@@ -1,0 +1,2 @@
+# ROOT index.adoc
+include::ROOT:partial$scope.adoc[]

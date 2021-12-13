@@ -1,0 +1,7 @@
+name: system
+title: ACME Product - System Level
+version: 0.9.0
+start_page: ROOT:index.adoc
+nav:
+  - modules/ROOT/nav.adoc
+  - modules/arc42/nav.adoc
