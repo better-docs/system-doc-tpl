@@ -2,3 +2,5 @@
 :reftext: Do this
 :navtitle: Do this
 :page-partial:
+
+include::ROOT:partial$scope.adoc[]

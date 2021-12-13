@@ -2,6 +2,8 @@
 :reftext: Global Level 1 Building Blocks
 :navtitle: Level 1 Building Blocks
 
+include::ROOT:partial$scope.adoc[]
+
 [role="arc42help"]
 ****
 Here you describe the decomposition of the overall system using the following white box template. It contains

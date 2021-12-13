@@ -3,6 +3,8 @@
 :reftext: Global Building Block View
 :navtitle: 05. Building Block View
 
+include::ROOT:partial$scope.adoc[]
+
 [role="arc42help"]
 ****
 .Content

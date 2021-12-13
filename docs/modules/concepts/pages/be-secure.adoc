@@ -2,3 +2,5 @@
 :reftext: Be secure
 :navtitle: Be secure
 :page-partial:
+
+include::ROOT:partial$scope.adoc[]

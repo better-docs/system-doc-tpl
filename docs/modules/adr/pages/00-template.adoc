@@ -2,6 +2,8 @@
 :reftext: ADR - <Number> <Decision Shortname> 
 :navtitle: ADR - <Number> <Decision Shortname>
 
+include::ROOT:partial$scope.adoc[]
+
 [.helptext]
 ****
 Create an Architecture Decision Record for "architecturally significant" decisions: those that affect the structure, non-functional characteristics, dependencies, interfaces, or construction techniques. It should be something that has an effect on how the rest of the project will run. - link://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions[Michael Nygard]

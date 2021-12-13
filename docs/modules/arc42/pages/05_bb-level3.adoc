@@ -2,6 +2,8 @@
 :reftext: Global Level 3 Building Blocks
 :navtitle: Level 3 Building Blocks
 
+include::ROOT:partial$scope.adoc[]
+
 [role="arc42help"]
 ****
 Here you can specify the inner structure of (some) building blocks from level 2 as white boxes.
