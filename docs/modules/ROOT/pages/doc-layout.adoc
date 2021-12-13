@@ -18,13 +18,24 @@ documentation_ from _system-as-is documentation_.
 
 == Working with system-as-is and day-to-day documentation
 
-The system documentation is split into sections that _describe the system as it is right now_ like
+[IMPORTANT]
+====
+The system documentation xref:important-words.adoc[shall] be split into sections
+that _describe the system as it is right now_ like
 xref:arc42:01_introduction_and_goals.adoc[architecture],
 xref:opman:index.adoc[operating manual] or business processes and sections that
 _describe things that change_ like planning, ideas, analyses, ... (see
 <<fig-system-documentation>>).
+====
 
-Distinguishing between the a more formal _description of the system as-is_ (=> _system documentation_) and an more informal _description of things that were and might be_ (=> _day-to-day documentation_) greatly improves the usefulness of the documentation and makes it easy to add or change the documentation. By enforcing that the _system documentation_ always reflects the system to a very high degree it stays _trustworthy_. To choose where to put it ask a simple question: "does it describe the system as of now" (<<fig-where-to-put-it>> and <<component-or-system>>).
+Distinguishing between the a more formal _description of the system as-is_ (=>
+_system documentation_) and an more informal _description of things that were
+and might be_ (=> _day-to-day documentation_) greatly improves the usefulness of
+the documentation and makes it easy to add or change the documentation. By
+enforcing that the _system documentation_ always reflects the system to a very
+high degree it stays _trustworthy_. To choose where to put it ask a simple
+question: "does it describe the system as of now" (<<fig-where-to-put-it>> and
+<<component-or-system>>).
 
 [#fig-system-documentation]
 .System- and day-to-day documentation
@@ -171,14 +182,22 @@ stop
 
 == Working with (micro) services
 
+[NOTE]
+====
+Systems with only a few services/components xref:important-words.adoc[may]
+keep the documentation in one repository. Systems with many services should
+split the system documentation into a dedicated repository and store the
+documentation of each service in a `doc` folder besides the services source code.
+====
+
 Most systems nowadays are split into several services with their own
 documentation. The layout of the documentation of each component mirrors the
 layout of the system documentation. The major difference is that the system
 documentation looks at the system as a whole, whereas the component
 documentation focuses on the concrete component/service. The documentation is
 build from multiple repositories by link:#antora[Antora]. The following table
-helps to decide if a fact belongs into the _system_ documentation or a
-_component_ documentation.
+xref:important-words.adoc[should] be used to decide if a fact belongs into the
+_system_ documentation or a _component_ documentation.
 
 .Decision table to determine if it belongs in the _system_ or a _component_ documentation.
 [#component-or-system]
@@ -274,11 +293,44 @@ include::ROOT:partial$scope.adoc[]
 ****
 
 == Working with versions
+
+[NOTE]
+====
+The version of the documentation should follow the `MAJOR.MINOR` of the
+component/system.
+====
+
+The documentation carries a
+https://docs.antora.org/antora/2.3/component-version/[version] attribute that
+Antora uses to build one site with multiple components and versions.
+
+=== Multiple Repositories
+https://docs.antora.org/antora/2.3/content-source-versioning-methods/[Antora
+component versions] are used to tie releases together.
+
+=== Pre-Release Versions
+
+[NOTE]
+====
+Pre-release versions of the documentation should be treated like pre-release
+code with regards to branches and version postfixes (e.g. `-rc2`).
+====
+
+Pre-release versions of the _system-as-is_ documentation should be kept in
+dedicated branches according to the branching schema established for the source
+code (e.g. https://nvie.com/posts/a-successful-git-branching-model/[git-flow],
+https://docs.github.com/en/get-started/quickstart/github-flow/[GitHub-flow], ...).
+Pre-release documentation should use the Antora
+https://docs.antora.org/antora/2.3/component-prerelease/[prerelease] key to
+distinguish these versions from released versions.
+
+=== Different Component Versions in the same system
 TODO
 
 [#antora]
 == Tooling: _Antora_
-The HTML documentation is created from several link:https://asciidoctor.org/[asciidoc] pages split over several git repositories. link:https://antora.org/[Antora] pulls all repositories and files together and generates this site.
 
-== Working with releases
-https://docs.antora.org/antora/2.3/content-source-versioning-methods/[Antora component versions] are used to tie releases together.
+The HTML documentation is created from several
+link:https://asciidoctor.org/[asciidoc] pages split over several git
+repositories. link:https://antora.org/[Antora] pulls all repositories and files
+together and generates this site.
