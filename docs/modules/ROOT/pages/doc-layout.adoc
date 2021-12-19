@@ -13,10 +13,10 @@ all things in live - you learn to value it as soon as you lose it.
 
 Trustworthiness is achieved by separating _what has been and what should be_ from _what
 actually is_, or in the nomenclature used here, by separating _day-to-day
-documentation_ from _system-as-is documentation_.
+documentation_ from _as-is documentation_.
 
 
-== Working with system-as-is and day-to-day documentation
+== Working with as-is and day-to-day documentation
 
 [IMPORTANT]
 ====
@@ -37,159 +37,7 @@ high degree it stays _trustworthy_. To choose where to put it ask a simple
 question: "does it describe the system as of now" (<<fig-where-to-put-it>> and
 <<component-or-system>>).
 
-[#fig-system-documentation]
-.System- and day-to-day documentation
-[plantuml, system-documentation, svg]
-----
-skinparam monochrome true
-skinparam defaulttextalignment center
-skinparam legendbackgroundcolor none
-hide circle
-package "<b>System</b> Documentation" as doc <<Rectangle>> {
-}
-
-class "Architecture" as arc42 << system documentation >> {
-  01 introduction
-  02 constraints
-  03 scope and context
-  04 solution strategy
-  05 building blocks
-  06 runtime view
-  07 deployment view
-  08 cross-cutting concepts
-  09 architectural design decisions
-  10 quality scenarios
-  11 technical risks
-  12 glossary
-}
-
-class "Operations Manual" as om << system documentation >> {
-...
-}
-
-class "Business Processes" as bp << system  documentation >> {
-...
-}
-
-class "Day-to-day" as dtd << work in progress >> {
-  planning
-  ideas
-  sketches
-  protocols
-  analyses
-  ...
-}
-
-doc *-left- arc42
-doc *-right- dtd
-doc *-down- om
-doc *-up- bp
-
-note right of dtd: Where the other sections of the documentation\ndescribe the system <i>as it is</i>, this\nsection contains <i>things that might be</i> like drafts\nfor new features and ideas or\n<i>day to day</i> documentation like\nprotocols.
-
-legend right
-|Style| Relevance |
-|<b>bold| in focus |
-|<strike>striked| irrelevant |
-|default| considered |
-endlegend
-----
-
-
-[#fig-where-to-put-it]
-.How to choose where to put it?
-[plantuml,  where-to-put-it, svg]
-----
-@startuml
-!pragma useVerticalIf on
-skinparam monochrome true
-skinparam defaulttextalignment center
-skinparam legendbackgroundcolor none
-hide circle
-
-start
-note right
-  I have this piece of documentation and
-  don't know where to put it.
-end note
-if (This is a customer specific information?) then (yes)
-  #DarkGray:Somewhere else;
-note right
-    Customer or contract specific documentation
-    should either become a (generic) system requirement
-    //or// be documented in a dedicated location for
-    customer requirements, e.g. a dedicated Antora repository.
-end note
-elseif (Is still in a draft state?) then (yes)
-  #SkyBlue:Day-to-day documentation;
-note right
-    Only put things in the //system-as-is//
-    //documentation// when they are mature
-    and reliable enough to be of actual help
-    to the reader.
-end note
-elseif (Describes an event/protocol/..?) then (yes)
-  #SkyBlue:Day-to-day documentation;
-note right
-    Although events documentation, meeting
-    protocols, analyses results, .. can
-    describe observed and expected system
-    behavior, they should be kept separate.
-end note
-elseif (An idea for the system?) then  (yes)
-  #SkyBlue:Day-to-day documentation;
-note right
-    Ideas and plans change and evolve, many
-    will never make it to the system or are
-    implemented differently.
-end note
-elseif (The planned architecture for the //next// release?) then  (yes)
-  #SkyBlue:Day-to-day documentation;
-note right
-    Even if there is a high confidence that
-    //this is the way it is going to be//,
-    as long as code and documentation di-
-    verge it should be put in //day-to-day//.
-    Teams can agree on **exceptions** for
-    **development branches**.
-end note
-elseif (The planned architecture for release //has been implemented//?) then  (yes)
-  #SteelBlue:System-as-is documentation;
-note right
-    Moving mature documents from //day-to-day//
-    into the //system-as-is// documentation
-    is the recommended way.
-end note
-
-elseif (Describes the current system?) then  (yes)
-  #SteelBlue:System-as-is documentation;
-note right
-    Changing documentation in //system-as-is//
-    should adher to the same standards as
-    code , e.g. peer reviewed in a merge
-    request.
-end note
-else (not exactly)
-  #SkyBlue:Day-to-day documentation;
-note right
-    //When in doubt, leave it out.//
-end note
-endif
-stop
-@enduml
-----
-
-
-== Working with (micro) services
-
-[NOTE]
-====
-Systems with only a few services/components xref:important-words.adoc[may]
-keep the documentation in one repository. Systems with many services should
-split the system documentation into a dedicated repository and store the
-documentation of each service in a `doc` folder besides the services source code.
-====
-
+== System Level versus Component Level
 Most systems nowadays are split into several services with their own
 documentation. The layout of the documentation of each component mirrors the
 layout of the system documentation. The major difference is that the system
@@ -198,6 +46,14 @@ documentation focuses on the concrete component/service. The documentation is
 build from multiple repositories by link:#antora[Antora]. The following table
 xref:important-words.adoc[should] be used to decide if a fact belongs into the
 _system_ documentation or a _component_ documentation.
+
+[NOTE]
+====
+Systems with only a few services/components xref:important-words.adoc[may]
+keep the documentation in one repository. Systems with many services should
+split the system documentation into a dedicated repository and store the
+documentation of each service in a `doc` folder besides the services source code.
+====
 
 .Decision table to determine if it belongs in the _system_ or a _component_ documentation.
 [#component-or-system]
@@ -292,6 +148,233 @@ Example:
 include::ROOT:partial$scope.adoc[]
 ****
 
+
+[#fig-system-documentation]
+.System- and day-to-day documentation
+[plantuml, system-documentation, svg]
+----
+@startuml
+skinparam monochrome true
+skinparam defaulttextalignment center
+skinparam legendbackgroundcolor none
+skinparam linetype polyline
+
+skinparam class {
+  FontStyle<<important>> Bold
+  FontStyle<<not important>> Italic
+}
+
+hide circle
+
+package "<b>System Level</b>" as sys {
+
+    class "Documentation" as doc  {}
+
+    class "Architecture" as arc42 << as-is documentation >> << important >> {
+    01 introduction
+    02 constraints
+    03 scope and context
+    04 solution strategy
+    05 building blocks <b>level 1
+    06 runtime view <b>level 1
+    07 deployment view
+    08 cross-cutting concepts
+    09 architectural design decisions
+    10 quality scenarios
+    11 technical risks
+    12 glossary
+    }
+
+    class "Operations Manual" as om << as-is documentation >> {
+    ...
+    }
+
+    class "Business Processes" as bp << as-is  documentation >> << important >> {
+    ...
+    }
+
+    class "Day-to-day" as dtd << work in progress >> << not important >> {
+    planning
+    ideas
+    sketches
+    protocols
+    analyses
+    ...
+    }
+
+    doc *-left- arc42
+    doc *-right- dtd
+    doc *-down- om
+    doc *-up- bp
+
+    note right of dtd
+    Where the other sections of the documentation
+    describe the system <i>as it is</i>, this
+    section contains <i>things that might be</i>
+    like drafts for new features and ideas or
+    <i>day to day</i> documentation like meeting
+    protocols.
+    end note
+
+    note right of bp
+    Important business processes explained in the
+    vocabulary of the arc42 <u>context</u> and
+    <u>level 1</u> building blocks.
+    end note
+}
+
+
+package "<b>Component Level</b>" as comp {
+
+    class "Documentation" as cdoc  {}
+
+    class "Architecture" as carc42 << as-is documentation >> << important >> {
+    01 introduction <b>of component
+    02 constraints <b>of component
+    03 scope and context <b>of component
+    04 solution strategy <b>of component
+    05 building blocks <b>level 2+ of component
+    06 runtime view <b>of component
+    07 deployment view <b>of component
+    08 cross-cutting concepts <b>of component
+    09 architectural design decisions <b>of component
+    10 quality scenarios <b>of component
+    11 technical risks <b>of component
+    12 glossary <b>of component
+    }
+
+    class "Operations Manual" as com << as-is documentation >> {
+    ...
+    }
+
+    class "Business Processes" as cbp << as-is  documentation >> << not important >> {
+    ...
+    }
+
+    class "Day-to-day" as cdtd << work in progress >> {
+    planning
+    ideas
+    sketches
+    protocols
+    analyses
+    ...
+    }
+
+    note right of cbp
+    Important business processes handled by this
+    component explained  in the vocabulary of
+    the arc42 <u>context</u> and <u>level 1</u>
+    building blocks. Details of this component may
+    include <u>level 2+</u>.
+    Other components shall be limited to a <u>level 1</u>
+    whitebox view.
+    end note
+
+    cdoc *-left- carc42
+    cdoc *-right- cdtd
+    cdoc *-down- com
+    cdoc *-up- cbp
+
+
+}
+
+    sys *-right- comp
+
+legend right
+|Style| Relevance |
+|<b>bold| in focus |
+|<strike>striked| irrelevant |
+|default| considered |
+endlegend
+@enduml
+----
+
+
+[#fig-where-to-put-it]
+.How to choose where to put it?
+[plantuml,  where-to-put-it, svg]
+----
+@startuml
+!pragma useVerticalIf on
+skinparam monochrome true
+skinparam defaulttextalignment center
+skinparam legendbackgroundcolor none
+hide circle
+
+start
+note right
+  I have this piece of documentation and
+  don't know where to put it.
+end note
+if (This is a customer specific information?) then (yes)
+  #DarkGray:Somewhere else;
+note right
+    Customer or contract specific documentation
+    should either become a (generic) system requirement
+    //or// be documented in a dedicated location for
+    customer requirements, e.g. a dedicated Antora repository.
+end note
+elseif (Is still in a draft state?) then (yes)
+  #SkyBlue:Day-to-day documentation;
+note right
+    Only put things in the //as-is//
+    //documentation// when they are mature
+    and reliable enough to be of actual help
+    to the reader.
+end note
+elseif (Describes an event/protocol/..?) then (yes)
+  #SkyBlue:Day-to-day documentation;
+note right
+    Although events documentation, meeting
+    protocols, analyses results, .. can
+    describe observed and expected system
+    behavior, they should be kept separate.
+end note
+elseif (An idea for the system?) then  (yes)
+  #SkyBlue:Day-to-day documentation;
+note right
+    Ideas and plans change and evolve, many
+    will never make it to the system or are
+    implemented differently.
+end note
+elseif (The planned architecture for the //next// release?) then  (yes)
+  #SkyBlue:Day-to-day documentation;
+note right
+    Even if there is a high confidence that
+    //this is the way it is going to be//,
+    as long as code and documentation di-
+    verge it should be put in //day-to-day//.
+    Teams can agree on **exceptions** for
+    **development branches**.
+end note
+elseif (The planned architecture for release //has been implemented//?) then  (yes)
+  #SteelBlue:as-is documentation;
+note right
+    Moving mature documents from //day-to-day//
+    into the //as-is// documentation
+    is the recommended way.
+end note
+
+elseif (Describes the current system?) then  (yes)
+  #SteelBlue:as-is documentation;
+note right
+    Changing documentation in //as-is//
+    should adher to the same standards as
+    code , e.g. peer reviewed in a merge
+    request.
+end note
+else (not exactly)
+  #SkyBlue:Day-to-day documentation;
+note right
+    //When in doubt, leave it out.//
+end note
+endif
+stop
+@enduml
+----
+
+
+
 == Working with versions
 
 [NOTE]
@@ -316,7 +399,7 @@ Pre-release versions of the documentation should be treated like pre-release
 code with regards to branches and version postfixes (e.g. `-rc2`).
 ====
 
-Pre-release versions of the _system-as-is_ documentation should be kept in
+Pre-release versions of the _as-is_ documentation should be kept in
 dedicated branches according to the branching schema established for the source
 code (e.g. https://nvie.com/posts/a-successful-git-branching-model/[git-flow],
 https://docs.github.com/en/get-started/quickstart/github-flow/[GitHub-flow], ...).
