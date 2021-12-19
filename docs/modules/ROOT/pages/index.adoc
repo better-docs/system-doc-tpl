@@ -1,2 +1,4 @@
-# ROOT index.adoc
+# About
 include::ROOT:partial$scope.adoc[]
+
+This is the documentation of the ACME system.
